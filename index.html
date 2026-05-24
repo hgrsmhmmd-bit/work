@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحدي العمل من المنزل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1e293b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Tajawal', sans-serif;
+            color: white;
+        }
+
+        .work-bg-layer {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 2px, transparent 2px);
+            background-size: 60px 60px;
+            animation: panBackground 20s linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes panBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: -60px -60px; }
+        }
+
+        .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            text-align: center;
+        }
+
+        /* --- المشهد الأول --- */
+        #scene-intro { display: flex; }
+
+        .intro-gif {
+            width: 350px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            animation: floatUpDown 3s ease-in-out infinite;
+        }
+
+        @keyframes floatUpDown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .intro-title {
+            font-family: 'Lalezar', cursive;
+            font-size: 90px;
+            color: #D4AF37;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            margin: 0;
+        }
+
+        .continue-btn {
+            margin-top: 30px;
+            font-size: 24px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            color: #fff;
+            background: #D4AF37;
+            border: none;
+            cursor: pointer;
+            padding: 15px 40px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .continue-btn:hover { transform: scale(1.1); }
+
+        /* --- المشهد الثاني --- */
+        .question-gif {
+            width: 350px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .question-text {
+            font-family: 'Lalezar', cursive;
+            font-size: 60px;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 40px;
+            height: 80px;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 50px;
+            font-size: 32px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 20;
+        }
+
+        .btn-yes { 
+            background: #22c55e; 
+            color: white; 
+            position: relative;
+            animation: cuteWiggle 2s infinite;
+        }
+        .btn-yes:hover { 
+            background: #16a34a; 
+            transform: scale(1.15) !important;
+            animation: none; 
+        }
+
+        @keyframes cuteWiggle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(3deg); }
+            50% { transform: scale(1) rotate(0deg); }
+            75% { transform: scale(1.05) rotate(-3deg); }
+        }
+
+        /* أنيميشن القلوب */
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: flyUpHeart 1.5s ease-out forwards;
+            z-index: 30;
+        }
+        @keyframes flyUpHeart {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-70px) scale(1.5); }
+        }
+
+        /* زرار لا */
+        .btn-no {
+            background: #ef4444;
+            color: white;
+            transition: transform 0.2s ease, left 0.2s ease, top 0.2s ease;
+        }
+
+        /* --- المشهد الثالث --- */
+        #scene-end { background-color: #0f172a; overflow: hidden; }
+
+        .end-gif {
+            width: 400px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6);
+            z-index: 2;
+        }
+
+        .end-text {
+            font-family: 'Lalezar', cursive;
+            font-size: 50px;
+            color: #D4AF37;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            line-height: 1.2;
+            z-index: 2;
+        }
+        
+        .end-subtext {
+            font-size: 28px;
+            margin-top: 10px;
+            color: #cbd5e1;
+            z-index: 2;
+            font-weight: bold;
+        }
+
+        /* أضواء الاحتفالات */
+        .spotlight {
+            position: absolute;
+            top: -50px;
+            width: 150px;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);
+            transform-origin: top center;
+            z-index: 1;
+        }
+        .light-left { left: 20%; animation: swingLeft 4s infinite ease-in-out alternate; }
+        .light-right { right: 20%; animation: swingRight 3s infinite ease-in-out alternate; }
+
+        @keyframes swingLeft {
+            0% { transform: rotate(15deg); }
+            100% { transform: rotate(-30deg); }
+        }
+        @keyframes swingRight {
+            0% { transform: rotate(-15deg); }
+            100% { transform: rotate(30deg); }
+        }
+
+        /* اهتزاز الكاميرا */
+        .shake { animation: cameraShake 0.15s infinite; }
+        @keyframes cameraShake {
+            0% { transform: translate(0,0); }
+            25% { transform: translate(4px, 4px); }
+            50% { transform: translate(-4px, -4px); }
+            75% { transform: translate(4px, -4px); }
+            100% { transform: translate(0,0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="work-bg-layer" id="bg-layer"></div>
+
+    <audio id="audio-question" src="https://www.myinstants.com/media/sounds/illuminati-song.mp3" loop></audio>
+    <audio id="audio-celebrate" src="https://www.myinstants.com/media/sounds/kids-cheering.mp3"></audio>
+
+    <div class="scene" id="scene-intro">
+        <img src="https://media.giphy.com/media/REnA1s7LGoQIntt82C/giphy.gif" class="intro-gif" alt="Happy Birthday">
+        <h1 class="intro-title">كل عام وأنت بخير</h1>
+        <button class="continue-btn" onclick="startQuestion()">يلا بينا ➔</button>
+    </div>
+
+    <div class="scene" id="scene-question">
+        <img src="https://media.giphy.com/media/sCZkEEBoXOupz2BJcy/giphy.gif" class="question-gif" alt="Monday Work">
+        <div class="question-text">هل بكره شغل من البيت؟</div>
+        
+        <div class="button-group">
+            <button class="btn btn-yes" id="yesBtn" onclick="startEnd()">ايوه</button>
+            <button class="btn btn-no" id="noBtn" onmouseover="evadeCursor()">لا</button>
+        </div>
+    </div>
+
+    <div class="scene" id="scene-end">
+        <div class="spotlight light-left"></div>
+        <div class="spotlight light-right"></div>
+        
+        <img src="https://media.giphy.com/media/6l14Lq5OW1dmsH5rT2/giphy.gif" class="end-gif" alt="Friday Fun">
+        <div class="end-text">هنكسر الدنيا شغل وتاسكات 💻💪</div>
+        <div class="end-subtext">... بس وإحنا قاعدين في البيت! ☕✨</div>
+        <div class="emoji-row">
+      <span>🏆</span><span>🎉</span><span>🥳</span><span>🎊</span><span>🎈</span><span>🌟</span>
+    </div>
+    </div>
+
+    <script>
+        let evadeCount = 0; 
+        let noButtonScale = 1; 
+        let heartTimer;
+
+        function hideAllScenes() {
+            document.querySelectorAll('.scene').forEach(scene => scene.style.display = 'none');
+        }
+
+        function startQuestion() {
+            hideAllScenes();
+            document.getElementById('scene-question').style.display = 'flex';
+            
+            // تشغيل موسيقى التفكير (Illuminati)
+            const questionAudio = document.getElementById('audio-question');
+            questionAudio.volume = 0.5;
+            questionAudio.play();
+
+            // تشغيل القلوب
+            spawnHeart();
+        }
+
+        // دالة ظهور القلوب كل فتره وفترة (بشكل متقطع وعشوائي)
+        function spawnHeart() {
+            const yesBtn = document.getElementById('yesBtn');
+            const heart = document.createElement('div');
+            heart.innerHTML = '💖';
+            heart.className = 'heart';
+            heart.style.left = (Math.random() * 60 + 20) + '%'; 
+            heart.style.top = '50%';
+            yesBtn.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 1500);
+            
+            // يظهر قلب جديد بعد وقت عشوائي بين ثانيتين لـ 4 ثواني
+            heartTimer = setTimeout(spawnHeart, Math.random() * 2000 + 2000);
+        }
+
+        function evadeCursor() {
+            const btn = document.getElementById('noBtn');
+            const scene = document.getElementById('scene-question');
+            
+            evadeCount++;
+
+            if (evadeCount > 3) {
+                // مش هيصغر عن 75% عشان يفضل واضح وميختفيش خالص
+                noButtonScale = Math.max(0.75, noButtonScale - 0.05); 
+            }
+
+            // position fixed عشان ميهربش بره الشاشة أبدًا
+            btn.style.position = 'fixed';
+            btn.style.zIndex = '100';
+
+            // مساحة الشاشة الآمنة
+            const safeWidth = window.innerWidth - btn.offsetWidth - 20;
+            const safeHeight = window.innerHeight - btn.offsetHeight - 20;
+            const x = Math.max(20, Math.random() * safeWidth);
+            const y = Math.max(20, Math.random() * safeHeight);
+
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            btn.style.transform = `scale(${noButtonScale})`;
+
+            scene.classList.add('shake');
+            setTimeout(() => scene.classList.remove('shake'), 150);
+        }
+
+        function startEnd() {
+            hideAllScenes();
+            clearTimeout(heartTimer); 
+            document.getElementById('scene-end').style.display = 'flex';
+            document.getElementById('bg-layer').style.display = 'none';
+            
+            document.getElementById('audio-question').pause();
+            const celebrateAudio = document.getElementById('audio-celebrate');
+            celebrateAudio.volume = 0.8;
+            celebrateAudio.play();
+
+            // الاحتفالات من فوق
+            var end = Date.now() + (5 * 1000);
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#D4AF37', '#ffffff', '#22c55e']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#D4AF37', '#ffffff', '#22c55e']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+    </script>
+</body>
+</html>
